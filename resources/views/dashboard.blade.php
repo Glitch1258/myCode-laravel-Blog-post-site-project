@@ -3,7 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Dashboard') }}
         </h2>
-        <!-- probably get all those posts hear *************************-->
+
+        <!-- in layput\app.blade.php there is an @isset('header') the content in this tag will go there -->
+       
     </x-slot>
 
     <div class="py-12">
@@ -13,6 +15,7 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
+             <!-- all those posts  go hear -->
         </div>
     </div>
 </x-app-layout>
