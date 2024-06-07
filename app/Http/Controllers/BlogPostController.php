@@ -58,17 +58,29 @@ class BlogPostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(BlogPost $blogPost)
     {
-        //
+         if( $blogPost->user_id  !==  request()->user()->id  ){
+            abort(403);
+        }
+        // show form for editing 
+        //return view('posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BlogPost $blogPost)
     {
-        //
+         if( $blogPost->user_id  !==  request()->user()->id  ){
+            abort(403);
+        }
+        $request->validate([
+        'title'=>['required','string'],
+        'body'=>['required','string'],
+       ]);
+       $blogPost->update($request->all());
+        //return redirect()->route('posts.index');
     }
 
     /**
