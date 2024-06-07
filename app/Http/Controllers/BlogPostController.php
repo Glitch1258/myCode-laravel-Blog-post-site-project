@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class BlogPostController extends Controller
 {
     /**
@@ -11,6 +12,8 @@ class BlogPostController extends Controller
      */
     public function index()
     {
+        $posts = BlogPost::where('user_id',Auth::id())->paginate();
+        return view("dashboard",compact('posts'));
         //
     }
 
