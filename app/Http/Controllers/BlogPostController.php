@@ -23,7 +23,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        //
+        //return view(post.create');
     }
 
     /**
@@ -31,7 +31,16 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request->validate([
+        'title'=>['required','string'],
+        'body'=>['required','string'],
+       ]);
+       $blogPost = new BlogPost();
+       $blogPost->title = $request->title;
+       $blogPost->body = $request->body;
+       $blogPost->user_id = $request->user()->id;
+       $blogPost->save();
+        //return redirect()->route('posts.index');
     }
 
     /**
@@ -42,7 +51,7 @@ class BlogPostController extends Controller
         if( $blogPost->user_id  !==  request()->user()->id  ){
             abort(403);
         }
-        //return view('note.show', ['note' => $blogPost]);
+        //return view('post.show', ['post' => $blogPost]);
         
     }
 
@@ -71,7 +80,7 @@ class BlogPostController extends Controller
             abort(403);
         }
         $blogPost->delete();
-        //return to_route('note.index')->with('message', 'Note was deleted');
+        //return to_route('dashboard')->with('message', 'Note was deleted');
         
     }
 }
