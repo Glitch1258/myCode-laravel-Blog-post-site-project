@@ -12,7 +12,8 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::where('user_id',Auth::id())->paginate();
+        // $posts = BlogPost::where('user_id',Auth::id())->paginate();
+        $posts = BlogPost::where('user_id',request()->user()->id)->paginate();
         return view("dashboard",compact('posts'));
         //
     }
