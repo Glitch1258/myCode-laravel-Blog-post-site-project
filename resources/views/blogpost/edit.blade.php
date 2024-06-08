@@ -8,7 +8,7 @@
             <textarea name="body" rows="10" class="" placeholder="Enter your post here">{{ $blogPost->body }}</textarea>
             <div class="">
                 <a href="{{ route('dashboard') }}" class="">Cancel</a>
-                <button class="">Submit</button> 
+                <button class="">Submit</button>
             </div>
         </form>
     </div>
