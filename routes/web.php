@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //--------------------------------
 Route::get('/dashboard', function () {
-    $blogPosts = BlogPost::where('user_id',request()->user()->id)->paginate();
+    $blogPosts = BlogPost::paginate();
     return view('dashboard', ['blogPosts'=>$blogPosts]); 
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -14,8 +14,8 @@ class BlogPostController extends Controller
     public function index()
     {
         // $posts = BlogPost::where('user_id',Auth::id())->paginate();
-        $blogPosts = BlogPost::where('user_id', request()->user()->id)->paginate();
-        return view('dashboard', ['blogPosts' => $blogPosts]);
+        $blogPosts = BlogPost::paginate();
+         return view('dashboard', ['blogPosts'=>$blogPosts]); 
     }
 
     /**
@@ -51,9 +51,9 @@ class BlogPostController extends Controller
         $blogPost = BlogPost::findOrFail($id);
 
 
-        if ($blogPost->user_id !== request()->user()->id) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if ($blogPost->user_id !== request()->user()->id) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         return view('blogpost.show', ['blogPost' => $blogPost]);
     }
