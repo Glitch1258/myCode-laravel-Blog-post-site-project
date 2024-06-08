@@ -3,7 +3,9 @@
         <h1>Create Post</h1>
         <form action="{{ route('post.store') }}" method="POST" class="flex flex-col flex-grow">
             @csrf
+            <label class="mt-5 "> Post title </label>
             <textarea name="title" rows="3" class="bg-black block mt-5 w-full max-w-[calc(100vw-100px)] mx-auto text-white-900" placeholder="Enter post title here"></textarea>
+            <label class="mt-5 "> Post text </label>
             <textarea name="body" class="bg-black block mt-5 w-full max-w-[calc(100vw-100px)] mx-auto text-white-900 flex-grow" placeholder="Post here"></textarea>
             <div class="flex items-center mt-5">
                 <a href="{{ route('dashboard') }}" class="mr-4 block bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-700">

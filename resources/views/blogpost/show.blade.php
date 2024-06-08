@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 text-white-900 dark:text-gray-100 h-screen flex flex-col">
         
-            <h1 class="mb-5">post : {{ $blogPost->created_at }}</h1>
+            <h1 class="mb-5">post created at : {{ $blogPost->created_at }}</h1>
 
 
 
