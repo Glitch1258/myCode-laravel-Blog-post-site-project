@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class BlogPostController extends Controller 
+
+class BlogPostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,9 +14,8 @@ class BlogPostController extends Controller
     public function index()
     {
         // $posts = BlogPost::where('user_id',Auth::id())->paginate();
-        $posts = BlogPost::where('user_id',request()->user()->id)->paginate();
-        //return view("dashboard",compact('posts'));
-        
+        $blogPosts = BlogPost::where('user_id', request()->user()->id)->paginate();
+        return view('dashboard', ['blogPosts' => $blogPosts]);
     }
 
     /**
@@ -23,7 +23,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        //return view(post.create');
+        return view('blogpost.create');
     }
 
     /**
@@ -31,68 +31,72 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-        'title'=>['required','string'],
-        'body'=>['required','string'],
-       ]);
-       $blogPost = new BlogPost();
-       $blogPost->title = $request->title;
-       $blogPost->body = $request->body;
-       $blogPost->user_id = $request->user()->id;
-       $blogPost->save();
-        //return redirect()->route('posts.index');
+        $request->validate([
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+        ]);
+        $blogPost = new BlogPost();
+        $blogPost->title = $request->title;
+        $blogPost->body = $request->body;
+        $blogPost->user_id = $request->user()->id;
+        $blogPost->save();
+        return redirect()->route('dashboard')->with('message', 'posted');;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(BlogPost $blogPost)
-    {// in this case id == foreign id of BlogPost ie id == 'user_id' . (blog_post[user_id]------>user[id]) 
-        if( $blogPost->user_id  !==  request()->user()->id  ){
-            abort(403);
+    public function show(string $id)
+    {
+        $blogPost = BlogPost::findOrFail($id);
+
+
+        if ($blogPost->user_id !== request()->user()->id) {
+            abort(403, 'Unauthorized action.');
         }
-        //return view('post.show', ['post' => $blogPost]);
-        
+
+        return view('blogpost.show', ['blogPost' => $blogPost]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BlogPost $blogPost)
+    public function edit(string $id)
     {
-         if( $blogPost->user_id  !==  request()->user()->id  ){
-            abort(403);
+        $blogPost = BlogPost::findOrFail($id);
+        if ($blogPost->user_id !== request()->user()->id) {
+            abort(403, 'Unauthorized action.');
         }
-        // show form for editing 
-        //return view('posts.edit', compact('post'));
+        return view('blogpost.edit', ['blogPost' => $blogPost]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BlogPost $blogPost)
+    public function update(Request $request, string $id)
     {
-         if( $blogPost->user_id  !==  request()->user()->id  ){
-            abort(403);
+        $blogPost = BlogPost::findOrFail($id);
+        if ($blogPost->user_id !== request()->user()->id) {
+            abort(403, 'Unauthorized action.');
         }
         $request->validate([
-        'title'=>['required','string'],
-        'body'=>['required','string'],
-       ]);
-       $blogPost->update($request->all());
-        //return redirect()->route('posts.index');
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+        ]);
+        $blogPost->update($request->all());
+        return redirect()->route('dashboard')->with('message', 'post was updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BlogPost $blogPost)
+    public function destroy(string $id)
     {
-        if( $blogPost->user_id  !==  request()->user()->id  ){
-            abort(403);
+        $blogPost = BlogPost::findOrFail($id);
+        if ($blogPost->user_id !== request()->user()->id) {
+            abort(403, 'Unauthorized action.');
         }
         $blogPost->delete();
-        //return to_route('dashboard')->with('message', 'Note was deleted');
-        
+        return to_route('dashboard')->with('message', 'post was deleted');
     }
 }

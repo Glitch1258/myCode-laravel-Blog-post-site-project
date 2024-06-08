@@ -16,9 +16,9 @@
                         {{($blogPost->title)}}
                     </div>
                     <div class="">
-                        <a href="{{ route('post.show', $blogPost->id) }}" class="">View</a>
-                        <a href="{{ route('post.edit', $blogPost->id) }}" class="">Edit</a>
-                        <form action="{{ route('post.destroy', $blogPost->id) }}" method="POST">
+                        <a href="{{ route('post.show', $blogPost) }}" class="">View</a>
+                        <a href="{{ route('post.edit', $blogPost) }}" class="">Edit</a>
+                        <form action="{{ route('post.destroy', $blogPost) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="">Delete</button>
